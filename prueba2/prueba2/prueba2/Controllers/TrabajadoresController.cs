@@ -20,6 +20,7 @@ namespace prueba2.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var listmodel= await _context.Trabajadores
             return View(await _context.Trabajadores.ToListAsync());
         }
         [HttpGet]
@@ -136,18 +137,100 @@ namespace prueba2.Controllers
         }
 
         [HttpGet]
-        public IActionResult Editar(int? id)
+        public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var trabajadore = _context.Trabajadores.Find(id);
-            if (trabajadore == null)
+            var context = await _context.Trabajadores.FindAsync(id);
+            if (context == null)
             {
                 return NotFound();
             }
-            return View(trabajadore);
+         
+            List<SelectListItem> tipodoc = new List<SelectListItem>()
+            {
+                new SelectListItem
+                {
+                    Text = "-Seleccionar Tipo-", Value=string.Empty
+                },
+                new SelectListItem
+                {
+                    Text="DNI", Value="DNI"
+                },
+                new SelectListItem
+                {
+                    Text="Carné de Extranjearía", Value="CXE"
+                },
+                new SelectListItem
+                {
+                    Text="Pasaporte", Value="PAS"
+                }
+            };
+            ViewBag.typedoc = tipodoc;
+
+            //Departamento
+
+            var departamento = _context.Departamentos.ToList();
+
+            var _depList = new List<SelectListItem>();
+            _depList.Add(new SelectListItem
+            {
+                Text = "-Seleccionar Departamento-",
+                Value = string.Empty
+            });
+            foreach (var item in departamento)
+            {
+                _depList.Add(new SelectListItem
+                {
+                    Text = item.NombreDepartamento,
+                    Value = item.Id.ToString()
+                });
+            }
+            ViewBag.depList = _depList;
+
+            //Provincia
+
+            var provincia = _context.Provincia.Where(x=>x.IdDepartamento==context.IdDepartamento).ToList();
+
+            var _proList = new List<SelectListItem>();
+            _proList.Add(new SelectListItem
+            {
+                Text = "-Primero Seleccione Departamento-",
+                Value = string.Empty
+            });
+            foreach (var item in provincia)
+            {
+                _proList.Add(new SelectListItem
+                {
+                    Text = item.NombreProvincia,
+                    Value = item.Id.ToString()
+                });
+            }
+            ViewBag.proList = _proList;
+
+            //Distrito
+
+            var distrito = _context.Distritos.Where(x => x.IdProvincia == context.IdProvincia).ToList();
+
+            var _disList = new List<SelectListItem>();
+            _disList.Add(new SelectListItem
+            {
+                Text = "-Seleccionar Primero la Provincia-",
+                Value = string.Empty
+            });
+            foreach (var item in distrito)
+            {
+                _disList.Add(new SelectListItem
+                {
+                    Text = item.NombreDistrito,
+                    Value = item.Id.ToString()
+                });
+            }
+            ViewBag.disList = _disList;
+
+            return View(context);
         }
 
         [HttpPost]

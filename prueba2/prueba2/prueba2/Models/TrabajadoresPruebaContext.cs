@@ -98,6 +98,10 @@ public partial class TrabajadoresPruebaContext : DbContext
                 .HasConstraintName("FK__Trabajado__IdPro__534D60F1");
         });
 
+        //procedimiento
+
+
+
         OnModelCreatingPartial(modelBuilder);
     }
 
