@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using prueba2.Models;
 
@@ -24,8 +25,103 @@ namespace prueba2.Controllers
         [HttpGet]
         public IActionResult Crear()
         {
+            List<SelectListItem> tipodoc = new List<SelectListItem>()
+            {
+                new SelectListItem
+                {
+                    Text = "-Seleccionar Tipo-", Value=string.Empty
+                },
+                new SelectListItem
+                {
+                    Text="DNI", Value="DNI"
+                },
+                new SelectListItem
+                {
+                    Text="Carné de Extranjearía", Value="CXE"
+                },
+                new SelectListItem
+                {
+                    Text="Pasaporte", Value="PAS"
+                }
+            };
+            ViewBag.typedoc = tipodoc;
+
+            //Departamento
+
+            var departamento = _context.Departamentos.ToList();
+            
+            var _depList = new List<SelectListItem>();
+            _depList.Add(new SelectListItem
+            {
+                Text = "-Seleccionar Departamento-",
+                Value = string.Empty
+            });
+            foreach (var item in departamento)
+            {
+                _depList.Add(new SelectListItem
+                {
+                    Text = item.NombreDepartamento,
+                    Value = item.Id.ToString()
+                });
+            }
+            ViewBag.depList = _depList;
+
+            //Provincia
+
+            var provincia = _context.Provincia.ToList();
+
+            var _proList = new List<SelectListItem>();
+            _proList.Add(new SelectListItem
+            {
+                Text = "-Primero Seleccione Departamento-",
+                Value = string.Empty
+            });
+            foreach (var item in provincia)
+            {
+                _proList.Add(new SelectListItem
+                {
+                    Text = item.NombreProvincia,
+                    Value = item.Id.ToString()
+                });
+            }
+            ViewBag.proList = _proList;
+
+            //Distrito
+
+            var distrito = _context.Distritos.ToList();
+
+            var _disList = new List<SelectListItem>();
+            _disList.Add(new SelectListItem
+            {
+                Text = "-Seleccionar Primero la Provincia-",
+                Value = string.Empty
+            });
+            foreach (var item in distrito)
+            {
+                _disList.Add(new SelectListItem
+                {
+                    Text = item.NombreDistrito,
+                    Value = item.Id.ToString()
+                });
+            }
+            ViewBag.disList = _disList;
+
             return View();
         }
+
+        public JsonResult ListProvincia(int IdDep)
+        {
+            var prov = _context.Provincia.Where(x=>x.IdDepartamento==IdDep).ToList();
+            return Json(prov);
+        }
+
+        public JsonResult ListDistrito(int IdPro)
+        {
+            var dist = _context.Distritos.Where(x => x.IdProvincia == IdPro).ToList();
+            return Json(dist);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Crear(Trabajadore trabajadore)
         {
@@ -93,6 +189,8 @@ namespace prueba2.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        
 
         //// GET: TrabajadoresController/Details/5
         //public ActionResult Details(int id)
