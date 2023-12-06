@@ -1,4 +1,4 @@
-﻿@model IEnumerable<prueba2.Models.Trabajadore>
+﻿@model IEnumerable<prueba2.Models.SP_Trabajador>
 
 @{
     ViewData["Title"] = "Lista de trabajadores";
@@ -6,12 +6,34 @@
 
 <h1 class="text-center">Lista de Trabajadores</h1>
 <div class="row">
-    <div class="offset-9 col-3 mb-3">
+    
+    <div class=" col-9">
+        <form asp-action="Index" asp-controller="Trabajadores" method="get">
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="control-label">Genero</label>
+                        <select class="form-control" asp-items="ViewBag.Listgener" value="@ViewBag.gener" name="genero"></select>
+                    </div>                  
+
+                </div>
+                <div class="col-3 mt-4">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn btn-primary d-block mx-auto"><i class="bi bi-person-fill"></i>Filtrar por genero</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-3 mt-3">
         <a asp-action="Crear" asp-controller="Trabajadores" class="btn btn-secondary d-lock mx-auto btn-lg">
             <i class="bi bi-file-plus-fill"></i>Nuevo Trabajador
         </a>
     </div>
 </div>
+<br />
 <div class="row">
     <div class="offset-12">
         <div class="card border">
@@ -30,29 +52,48 @@
                                     <th>@Html.DisplayNameFor(m => m.NumeroDocumento)</th>
                                     <th>@Html.DisplayNameFor(m => m.Nombres)</th>
                                     <th>@Html.DisplayNameFor(m => m.Sexo)</th>
-                                    <th>@Html.DisplayNameFor(m => m.IdDepartamento)</th>
-                                    <th>@Html.DisplayNameFor(m => m.IdProvincia)</th>
-                                    <th>@Html.DisplayNameFor(m => m.IdDistrito)</th>
+                                    <th>@Html.DisplayNameFor(m => m.NombreDepartamento)</th>
+                                    <th>@Html.DisplayNameFor(m => m.NombreProvincia)</th>
+                                    <th>@Html.DisplayNameFor(m => m.NombreDistrito)</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td>@Html.DisplayFor(m => item.Id)</td>
-                                        <td>@Html.DisplayFor(m => item.TipoDocumento)</td>
-                                        <td>@Html.DisplayFor(m => item.NumeroDocumento)</td>
-                                        <td>@Html.DisplayFor(m => item.Nombres)</td>
-                                        <td>@Html.DisplayFor(m => item.Sexo)</td>
-                                        <td>@Html.DisplayFor(m => item.IdDepartamento)</td>
-                                        <td>@Html.DisplayFor(m => item.IdProvincia)</td>
-                                        <td>@Html.DisplayFor(m => item.IdDistrito)</td>
-                                        <td>
-                                            <a class="btn btn-warning" asp-action="Editar" asp-route-id="@item.Id"><i class="bi bi-pencil-fill"></i>Editar</a>
-                                            <a class="btn btn-danger" asp-action="Borrar" asp-route-id="@item.Id"><i class="bi bi-eraser-fill"></i>Elimnar</a>
-                                        </td>
-                                    </tr>
+                                    @if (item.Sexo.Equals("M"))
+                                    {
+                                        <tr style="background-color:lightblue">
+                                            <td>@Html.DisplayFor(m => item.Id)</td>
+                                            <td>@Html.DisplayFor(m => item.TipoDocumento)</td>
+                                            <td>@Html.DisplayFor(m => item.NumeroDocumento)</td>
+                                            <td>@Html.DisplayFor(m => item.Nombres)</td>
+                                            <td>@Html.DisplayFor(m => item.Sexo)</td>
+                                            <td>@Html.DisplayFor(m => item.NombreDepartamento)</td>
+                                            <td>@Html.DisplayFor(m => item.NombreProvincia)</td>
+                                            <td>@Html.DisplayFor(m => item.NombreDistrito)</td>
+                                            <td>
+                                                <a class="btn btn-warning" asp-action="Editar" asp-route-id="@item.Id"><i class="bi bi-pencil-fill"></i>Editar</a>
+                                                <a class="btn btn-danger" asp-action="Borrar" asp-route-id="@item.Id"><i class="bi bi-eraser-fill"></i>Elimnar</a>
+                                            </td>
+                                        </tr>
+                                    } else
+                                    {
+                                        <tr style="background-color:lightpink">
+                                            <td>@Html.DisplayFor(m => item.Id)</td>
+                                            <td>@Html.DisplayFor(m => item.TipoDocumento)</td>
+                                            <td>@Html.DisplayFor(m => item.NumeroDocumento)</td>
+                                            <td>@Html.DisplayFor(m => item.Nombres)</td>
+                                            <td>@Html.DisplayFor(m => item.Sexo)</td>
+                                            <td>@Html.DisplayFor(m => item.NombreDepartamento)</td>
+                                            <td>@Html.DisplayFor(m => item.NombreProvincia)</td>
+                                            <td>@Html.DisplayFor(m => item.NombreDistrito)</td>
+                                            <td>
+                                                <a class="btn btn-warning" asp-action="Editar" asp-route-id="@item.Id"><i class="bi bi-pencil-fill"></i>Editar</a>
+                                                <a class="btn btn-danger" asp-action="Borrar" asp-route-id="@item.Id"><i class="bi bi-eraser-fill"></i>Elimnar</a>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             </tbody>
                         </table>

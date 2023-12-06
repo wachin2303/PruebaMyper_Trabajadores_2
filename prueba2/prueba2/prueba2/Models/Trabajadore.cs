@@ -14,7 +14,7 @@ public partial class Trabajadore
     public string? NumeroDocumento { get; set; }
     [Required(ErrorMessage = " El nombre es oligatorio")]
     public string? Nombres { get; set; }
-    [Required(ErrorMessage = " El sexo es oligatorio")]
+    [Required(ErrorMessage = " El genero es oligatorio")]
     public string? Sexo { get; set; }
     [Required(ErrorMessage = " El departamento es oligatorio")]
     public int? IdDepartamento { get; set; }

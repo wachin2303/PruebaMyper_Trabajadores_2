@@ -18,11 +18,39 @@ namespace prueba2.Controllers
 
         // GET: TrabajadoresController
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string genero)
         {
-            var listmodel= await _context.Trabajadores
-            return View(await _context.Trabajadores.ToListAsync());
+            if(genero==null)
+            {
+                genero = "";
+            }
+            List<SelectListItem> gen = new List<SelectListItem>()
+            {
+                new SelectListItem
+                {
+                    Text = "-Seleccionar Genero-", Value=string.Empty
+                },
+                new SelectListItem
+                {
+                    Text="Masculino", Value="M"
+                },
+                new SelectListItem
+                {
+                    Text="Femenino", Value="F"
+                },
+            };
+            ViewBag.Listgener = new SelectList(gen, "Value", "Text", genero); ;
+            ViewBag.gener = genero;
+
+
+
+            var resultados = await _context.SP_Trabajadores.FromSqlRaw("dbo.Selec_trabajador @p0",genero).ToListAsync();
+            //return View(await _context.Trabajadores.ToListAsync());
+            return View(resultados);
         }
+
+        
+
         [HttpGet]
         public IActionResult Crear()
         {
@@ -273,7 +301,8 @@ namespace prueba2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
+
+
 
         //// GET: TrabajadoresController/Details/5
         //public ActionResult Details(int id)

@@ -23,6 +23,8 @@ public partial class TrabajadoresPruebaContext : DbContext
 
     public virtual DbSet<Trabajadore> Trabajadores { get; set; }
 
+    public DbSet<SP_Trabajador> SP_Trabajadores { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-GKH9A1B\\SQLEXPRESS;Initial Catalog=TrabajadoresPrueba;Integrated Security=True; TrustServerCertificate=True");
@@ -99,7 +101,21 @@ public partial class TrabajadoresPruebaContext : DbContext
         });
 
         //procedimiento
+        modelBuilder.Entity<SP_Trabajador>(entity =>
+        {
+            entity.HasNoKey();
+            entity.ToView("Selec_trabajador");
 
+            // Mapeo manual de las columnas
+            entity.Property(e => e.Id).HasColumnName("Id");
+            entity.Property(e => e.TipoDocumento).HasColumnName("TipoDocumento");
+            entity.Property(e => e.NumeroDocumento).HasColumnName("NumeroDocumento");
+            entity.Property(e => e.Nombres).HasColumnName("Nombres");
+            entity.Property(e => e.Sexo).HasColumnName("Sexo");
+            entity.Property(e => e.NombreDepartamento).HasColumnName("NombreDepartamento");
+            entity.Property(e => e.NombreProvincia).HasColumnName("NombreProvincia");
+            entity.Property(e => e.NombreDistrito).HasColumnName("NombreDistrito");
+        });
 
 
         OnModelCreatingPartial(modelBuilder);
