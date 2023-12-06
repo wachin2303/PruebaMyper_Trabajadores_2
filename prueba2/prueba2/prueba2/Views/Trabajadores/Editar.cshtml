@@ -1,0 +1,82 @@
+﻿@model prueba2.Models.Trabajadore
+
+@{
+    ViewData["Title"] = "Editar Trabajador";
+}
+
+<h1 class="text-center">Editar Trabajadores</h1>
+
+
+<div class="row">
+    <div class="offset-12">
+        <div class="card border">
+            <div class="card-header bg-dark">
+                <h3 class="text-white"><strong>Editar Trabajadores</strong></h3>
+            </div>
+            <div class="card-body">
+                <form asp-action="Editar">
+
+                    <!--ID del Trabajador como campo oculto-->
+                    <input type="hidden" asp-for="Id" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="TipoDocumento" class="control-label"></label>
+                        <select asp-for="TipoDocumento" class="form-control">
+                            <option value="DNI">DNI</option>
+                            <option value="CXE">Carné de extranjería</option>
+                            <option value="PAS">Pasaporte</option>
+                        </select>
+                        <span asp-validation-for="TipoDocumento" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="NumeroDocumento" class="control-label"></label>
+                        <input asp-for="NumeroDocumento" class="form-control" placeholder="Ingresa el numero de documento" />
+                        <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Nombres" class="control-label"></label>
+                        <input asp-for="Nombres" class="form-control" placeholder="Ingresa el nombre" />
+                        <span asp-validation-for="Nombres" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Sexo" class="control-label"></label>
+                        <input asp-for="Sexo" type="radio" value="M" />Masculino
+                        <input asp-for="Sexo" type="radio" value="F" />Femenino
+                        <span asp-validation-for="Sexo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IdDepartamento" class="control-label"></label>
+                        <label asp-for="IdDepartamento" class="control-label"></label>
+                        <input asp-for="IdDepartamento" class="form-control" placeholder="Ingresa el nombre" />
+                        <span asp-validation-for="Sexo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IdProvincia" class="control-label"></label>
+                        <label asp-for="IdProvincia" class="control-label"></label>
+                        <input asp-for="IdProvincia" class="form-control" placeholder="Ingresa el nombre" />
+                        <span asp-validation-for="Sexo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IdDistrito" class="control-label"></label>
+                        <label asp-for="IdDistrito" class="control-label"></label>
+                        <input asp-for="IdDistrito" class="form-control" placeholder="Ingresa el nombre" />
+                        <span asp-validation-for="Sexo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn btn-primary d-block mx-auto"><i class="bi bi-pencil-fill"></i>Editar Trabajador</button>
+                    </div>
+
+                </form>
+                <a asp-controller="Trabajadores" asp-action="Index">Volver</a>
+            </div>
+        </div>
+    </div>
+</div>
