@@ -23,6 +23,8 @@ public partial class TrabajadoresPruebaContext : DbContext
 
     public virtual DbSet<Trabajadore> Trabajadores { get; set; }
 
+    public virtual DbSet<Usuario> Usuarios { get; set; }
+
     public DbSet<SP_Trabajador> SP_Trabajadores { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
